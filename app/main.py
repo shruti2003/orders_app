@@ -6,10 +6,24 @@ from fastapi.staticfiles import StaticFiles
 from .database import create_database, create_orders_table
 from fastapi.responses import HTMLResponse
 from .websockets import send_order_update, websocket_endpoint
+from contextlib import asynccontextmanager
 
 
-# Initialize FastAPI app
-app = FastAPI()
+# Use lifespan to set up and tear down the database
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Setup: Create database and tables
+    create_database()
+    create_orders_table()
+
+    # Yield control to the FastAPI application
+    yield
+
+    # Teardown: (if necessary) cleanup actions after the application ends
+    # close_database_connection()
+
+app = FastAPI(lifespan=lifespan)
+
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 app.add_api_websocket_route("/ws/orders/", websocket_endpoint)
 
