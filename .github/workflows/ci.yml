@@ -40,10 +40,6 @@ jobs:
         run: |
           docker build -t your_dockerhub_username/orders_app .
 
-      - name: Push Docker image
-        run: |
-          docker push your_dockerhub_username/orders_app:latest
-
       - name: SSH to EC2 and Deploy
         uses: appleboy/ssh-action@v0.1.5
         with:
