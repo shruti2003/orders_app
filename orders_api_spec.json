@@ -1,0 +1,142 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI Orders API",
+    "description": "A simple API to manage trade orders.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/orders/": {
+      "get": {
+        "summary": "Fetch all orders from the database.",
+        "operationId": "get_orders",
+        "responses": {
+          "200": {
+            "description": "A list of orders.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error fetching orders."
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new order and send a real-time update via WebSocket.",
+        "operationId": "create_order",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order created successfully with order_id.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error creating order."
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Serve index.html from the \"static\" folder.",
+        "operationId": "get_index",
+        "responses": {
+          "200": {
+            "description": "HTML content of index.html.",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ws/orders/": {
+      "get": {
+        "summary": "WebSocket endpoint for real-time order updates.",
+        "operationId": "websocket_orders",
+        "responses": {
+          "101": {
+            "description": "WebSocket connection established."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Order": {
+        "required": [
+          "customer_name",
+          "order_id",
+          "price",
+          "product_name",
+          "quantity"
+        ],
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "integer",
+            "description": "The ID of the order."
+          },
+          "customer_name": {
+            "type": "string",
+            "description": "The name of the customer."
+          },
+          "product_name": {
+            "type": "string",
+            "description": "The name of the product ordered."
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "The quantity of the product ordered."
+          },
+          "price": {
+            "type": "number",
+            "description": "The price of the product.",
+            "format": "float"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "integer",
+            "description": "The ID of the created order."
+          }
+        }
+      }
+    }
+  }
+}
