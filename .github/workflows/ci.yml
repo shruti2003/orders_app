@@ -40,6 +40,10 @@ jobs:
         run: |
           docker build -t your_dockerhub_username/orders_app .
 
+      - name: Push Docker image
+        run: |
+          # docker push your_dockerhub_username/orders_app:latest
+
       - name: SSH to EC2 and Deploy
         uses: appleboy/ssh-action@v0.1.5
         with:
@@ -47,13 +51,13 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          script: |
-            # Pull the latest Docker image on EC2
-            docker pull your_dockerhub_username/orders_app:latest
+          # script: |
+          #   # Pull the latest Docker image on EC2
+          #   docker pull your_dockerhub_username/orders_app:latest
 
-            # Stop and remove any existing containers
-            docker stop order_app || true
-            docker rm order_app || true
+          #   # Stop and remove any existing containers
+          #   docker stop order_app || true
+          #   docker rm order_app || true
 
-            # Run the new container
-            docker run -d --name order_app -p 8000:8000 your_dockerhub_username/orders_app:latest
+          #   # Run the new container
+          #   docker run -d --name order_app -p 8000:8000 your_dockerhub_username/orders_app:latest
