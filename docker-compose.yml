@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres-container
+    restart: always
+    environment:
+      POSTGRES_USER: shrutipatel
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: orders_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    container_name: order_app
+    ports:
+      - "8000:8000"  # FastAPI exposed port
+    depends_on:
+      - db  # Ensure FastAPI starts after the database
+    environment:
+      - DB_USER=shrutipatel
+      - DB_PASSWORD=your_password
+      - DB_NAME=orders_db
+      - DB_HOST=db  # FIXED: Use 'db' instead of 'localhost'
+      - DB_PORT=5432
+
+volumes:
+  postgres_data:
