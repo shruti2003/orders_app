@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy the requirements.txt into the container
 COPY requirements.txt .
 
+#install pytest
+RUN pip install pytest
+
 
 # Install the required dependencies
 RUN apt-get update && apt-get install -y libpq-dev build-essential
