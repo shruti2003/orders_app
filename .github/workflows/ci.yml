@@ -45,7 +45,8 @@ jobs:
           # docker push your_dockerhub_username/orders_app:latest
 
       - name: SSH to EC2 and Deploy
-        uses: appleboy/ssh-action@v0.1.5
+        run: |
+        # uses: appleboy/ssh-action@v0.1.5
         # with:
           # host: ${{ secrets.EC2_HOST }}
           # username: ${{ secrets.EC2_USERNAME }}
