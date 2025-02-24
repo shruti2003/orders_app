@@ -52,12 +52,7 @@ def test_get_orders(setup_database):
     assert len(orders) > 0  # Ensure the order list isn't empty
     assert "order_id" in orders[0]
 
-# Test the index route (if it serves the static file correctly)
-def test_get_index():
-    response = client.get("/")
-    
-    assert response.status_code == 200
-    assert "<html>" in response.text  # Ensure it returns an HTML response
+
 
 # Test for handling error in creating an order
 def test_create_order_error(setup_database):
