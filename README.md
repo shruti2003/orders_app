@@ -43,3 +43,4 @@ This project is a simple backend service that exposes REST APIs to manage trade 
 - Python 3.8 or higher
 - Docker
 - Defined in requirements.txt
+![Screenshot 2025-02-23 at 10 15 57 PM](https://github.com/user-attachments/assets/ba048e16-7624-44fd-b897-0d6ee1c0703d)
